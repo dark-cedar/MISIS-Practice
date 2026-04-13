@@ -1,0 +1,65 @@
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Dog dog1 = new Dog(10);
+            dog1.Func1(); dog1.Func2(); dog1.Func3();
+
+            Animal dog2 = new Dog(20);
+            dog2.Func1(); dog2.Func2(); dog2.Func3();
+        }
+    }
+
+    public abstract class Animal
+    {
+        private int _id;
+        public abstract string Sound { get; }
+
+        public Animal(int id)
+        {
+            _id = id;
+        }
+
+        public void Func1()
+        {
+            Console.WriteLine("Animal func 1");
+        }
+
+        public virtual void Func2()
+        {
+            Console.WriteLine("Animal func 2");
+        }
+
+        public abstract void Func3();
+    }
+
+    public class Dog : Animal
+    {
+        public override string Sound
+        {
+            get
+            {
+                return "Woof!";
+            }
+        }
+
+        public Dog(int id) : base(id) { }
+
+        public new void Func1() // Скрыли обычный метод
+        {
+            Console.WriteLine("Dog func 1");
+        }
+
+        public override void Func2() // Переопределили виртуальный метод
+        {
+            Console.WriteLine("Dog func 2");
+        }
+
+        public override void Func3() // Переопределили абстрактный метод
+        {
+            Console.WriteLine("Dog func 3");
+        }
+    }
+}
