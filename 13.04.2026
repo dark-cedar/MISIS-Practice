@@ -1,0 +1,121 @@
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            // Link запросы
+
+            // Contains
+            Console.WriteLine("1. Contains");
+            string str = "Banana";
+            Console.WriteLine(str.Contains("an"));
+            if (str.Contains("na"))
+                Console.WriteLine("Yes");
+            else
+                Console.WriteLine("No");
+
+            char[] arr = { 'b', ',', '5' };
+            Console.WriteLine(arr.Contains('.'));
+
+            char[] signs = new char[] { '.', '!', '?', ',', ':', '\"', ';', '-', '(', ')', '[', ']', '{', '}', '/' };
+            char c = 'm';
+            if (signs.Contains(c))
+                Console.WriteLine("This is punctuation");
+            else
+                Console.WriteLine("This is not punctuation");
+
+            Console.WriteLine("2. Replace");
+            string line = "I like pizza";
+            Console.WriteLine(line.Replace("pizza", "pasta"));
+            string line2 = "Cats drink milk";
+            line2 = line2.Replace("drink", "love");
+            Console.WriteLine(line2);
+
+
+            Console.WriteLine("3. Trim");
+            string str2 = "!!dog?";
+            Console.WriteLine(str2);
+            str2 = str2.Trim(signs);
+            Console.WriteLine(str2);
+            Console.WriteLine();
+            Console.WriteLine("======");
+            Console.WriteLine();
+
+
+            Console.WriteLine("4. Split");
+            string line3 = "Hi, my best 3 students!";
+            string[] words = line3.Split(signs, StringSplitOptions.RemoveEmptyEntries);
+            for (int i = 0; i < words.Length; i++)
+                Console.WriteLine(words[i]);
+            Console.WriteLine();
+            Console.WriteLine("======");
+            Console.WriteLine();
+
+
+            Console.WriteLine("5. Join");
+            string line4 = String.Join(" ", words);
+            Console.WriteLine(line4);
+            Console.WriteLine();
+            Console.WriteLine("======");
+            Console.WriteLine();
+
+
+
+            Console.WriteLine("6. IsDigit/IsLetter");
+            char ch = 'Z';
+            Console.WriteLine(Char.IsDigit(ch));
+            Console.WriteLine(Char.IsLetter(ch)); 
+            Console.WriteLine(Char.IsPunctuation(ch)); 
+            Console.WriteLine(Char.IsLower(ch)); 
+            Console.WriteLine(Char.IsUpper(ch));
+            Console.WriteLine();
+            Console.WriteLine("======");
+            Console.WriteLine();
+
+
+
+            Console.WriteLine("7. ToUpper/ToLower");
+            string str3 = "World";
+            Console.WriteLine(str3.ToLower());
+            Console.WriteLine(str3.ToUpper());
+
+            string glas = "аеёиоуыэюя";
+            glas += glas.ToUpper();
+            Console.WriteLine(glas);
+            Console.WriteLine();
+            Console.WriteLine("======");
+            Console.WriteLine();
+
+
+            string input = "Hi, my best 3 students!";
+            int count = 0;
+            Console.WriteLine(input);
+            string[] words2 = input.Split(' ');
+            string[] goodWords = new string[0];
+            for (int i = 0; i < words2.Length; i++)
+            {
+                string newWord = words2[i].Trim(signs);
+                Console.WriteLine(newWord);
+
+                bool ok = true;
+                foreach (char item in newWord)
+                {
+                    if (char.IsDigit(item) || signs.Contains(item))
+                        ok = false;
+                    break;
+                }
+                if (newWord != "" && ok == true)
+                {
+                    count++;
+                    Array.Resize(ref goodWords, goodWords.Length + 1);
+                    goodWords[goodWords.Length - 1] = newWord.ToLower();
+                }
+            }
+            Console.WriteLine();
+            Console.WriteLine(count);
+            foreach (var item in goodWords)
+                Console.Write($"{item} ");
+        }
+    }
+}
