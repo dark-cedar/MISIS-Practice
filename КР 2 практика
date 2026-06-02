@@ -1,0 +1,99 @@
+namespace ControlWork2_Practice;
+
+public class Task1 : ITask1
+{
+    public string Input { get; set; }
+
+    public Task1(string input)
+    {
+        Input = input;
+    }
+
+    public string Process()
+    {
+        string[] words = Input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return "Количество слов: " + words.Length;
+    }
+
+    public override string ToString()
+    {
+        return Process();
+    }
+}
+
+
+
+namespace ControlWork2_Practice;
+
+public class Task2
+{
+    public int[] Numbers { get; set; }
+
+    public Task2(int[] numbers)
+    {
+        Numbers = numbers;
+    }
+
+    public int SumEven()
+    {
+        int sum = 0;
+        for (int i = 0; i < Numbers.Length; i++)
+        {
+            if (Numbers[i] % 2 == 0)
+                sum += Numbers[i];
+        }
+        return sum;
+    }
+
+    public int CountNegative()
+    {
+        int count = 0;
+        for (int i = 0; i < Numbers.Length; i++)
+        {
+            if (Numbers[i] < 0)
+                count++;
+        }
+        return count;
+    }
+}
+
+
+
+namespace ControlWork2_Practice;
+
+public class Task3 : ITask3
+{
+    public string FolderPath { get; set; }
+    public string FilePath { get; set; }
+
+    public Task3(string folderPath, string fileName)
+    {
+        FolderPath = folderPath;
+        FilePath = Path.Combine(folderPath, fileName);
+    }
+
+    public void Prepare()
+    {
+        if (!Directory.Exists(FolderPath))
+            Directory.CreateDirectory(FolderPath);
+
+        if (!File.Exists(FilePath))
+            File.WriteAllText(FilePath, "Файл создан");
+    }
+}
+
+
+namespace ControlWork2_Practice;
+
+public class Task4
+{
+    public void Serialize(ITask1 task1, ITask3 task3)
+    {
+        task3.Prepare();
+
+        string content = task1.ToString();
+        string path = Path.Combine(task3.FolderPath, "Task4.txt");
+
+        File.WriteAllText(path, content);
+    }
+}
