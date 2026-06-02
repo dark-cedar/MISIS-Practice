@@ -1,0 +1,84 @@
+using ClassWork_11_05_XML;
+
+class Program
+{
+    static void Main()
+    {
+        List<Person> people = new List<Person>();
+        people.Add(new Person("Misha", 18, "Moscow"));
+        people.Add(new Person("Anna", 19, "Dolgoprudny"));
+        people.Add(new Person("Sergey", 18, "Khimki"));
+
+        string path = "people.xml";
+        XmlStorage.Save(path, people);
+
+        Console.WriteLine("Данные сохранены в xml");
+
+        List<Person> loaded = XmlStorage.Load(path);
+        Console.WriteLine("Загрузка из xml:");
+
+        for (int i = 0; i < loaded.Count; i++)
+            Console.WriteLine(loaded[i]);
+    }
+}
+
+
+
+
+
+
+using System.Xml.Serialization;
+
+namespace ClassWork_11_05_XML;
+
+public static class XmlStorage
+{
+    public static void Save(string path, List<Person> people)
+    {
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
+        using FileStream fs = new FileStream(path, FileMode.Create);
+        serializer.Serialize(fs, people);
+    }
+
+    public static List<Person> Load(string path)
+    {
+        if (!File.Exists(path))
+            return new List<Person>();
+
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Person>));
+        using FileStream fs = new FileStream(path, FileMode.Open);
+
+        object? result = serializer.Deserialize(fs);
+        if (result == null)
+            return new List<Person>();
+
+        return (List<Person>)result;
+    }
+}
+
+
+
+namespace ClassWork_11_05_XML;
+
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string City { get; set; }
+
+    public Person()
+    {
+    }
+
+    public Person(string name, int age, string city)
+    {
+        Name = name;
+        Age = age;
+        City = city;
+    }
+
+    public override string ToString()
+    {
+        return $"{Name}, {Age}, {City}";
+    }
+}
